@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>thymeleaf 사용하기</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+</head>
+<body>
+<div class="container mt-5">
+  <div>
+    <h3>선택 변수 출력하기</h3>
+<!--    *{} : 타임리프에서 변수를 출력하는 ${} 와 같은 기능을 함 -->
+<!--    ${} 일반 변수 출력 시와 동일하게 사용하고, list나 객체 타입의 변수를 출력 시 ${객체명.필드명} 방식으로 사용해야 함 -->
+<!--    '객체명.필드명' 형태에서 '필드명'으로만 사용하고자 할 경우 *{} 을 사용함 -->
+<!--    부모 태그에 th:object 속성을 사용하여 출력하고자 하는 객체를 값으로 사용 -->
+<!--    자식 태그에 th:text 에서 *{필드명} 형태로 사용 -->
+    <div>
+      <h4>일반적인 ${} 형태로 출력</h4>
+      <p th:text="${member.memberIdx}"></p>
+      <p th:text="${member.memberId}"></p>
+      <p th:text="${member.memberName}"></p>
+      <p th:text="${member.memberAge}"></p>
+      <p th:text="${member.memberEmail}"></p>
+    </div>
+    <br>
+    <div th:object="${member}">
+      <h4>선택 변수 출력 방식, *{} 으로 출력</h4>
+      <p th:text="*{memberIdx}"></p>
+      <p th:text="*{memberId}"></p>
+      <p th:text="*{memberName}"></p>
+      <p th:text="*{memberAge}"></p>
+      <p th:text="*{memberEmail}"></p>
+    </div>
+  </div>
+
+  <br><hr><br>
+
+  <div>
+    <h3>리터럴 데이터 사용하기</h3>
+
+    <div>
+      <h4>문자열 사용하기, ' '</h4>
+<!--      작은 따옴표 안에 텍스트를 입력 시 문자열로 취급되어 출력함 -->
+<!--      미리 생성해 놓은 문자열(리소스 번들)을 사용할 경우 #{} 으로 사용함 -->
+<!--      작은 따옴표를 문자열로 출력 시 \' 형태로 사용 -->
+<!--      + 연산자를 사용하여 여러개의 문자열을 연결할 수 있음 -->
+      <p th:text="'변경할 문자열'">기본 문자열</p>
+      <p th:text="#{hello}">기본 문자열</p>
+      <p th:text="'변경할 \'문자열\''">기본 문자열</p>
+      <p th:text="'여러개' + ' 문자열을 ' + ' + ' + '기호로 연결함'">기본 문자열</p>
+      <p th:text="${str1} + ' 문자열, ' + ${str2} + ' 문자열'">기본 문자열</p>
+    </div>
+    <br>
+    <div>
+      <h4>리터럴 대체, || 사용하기</h4>
+<!--      thymeleaf에서 변수와 문자열을 연결하기 위해서 + 연산자를 사용하여 문자열을 연결하여 사용함 -->
+<!--      + 연산자를 문자열 및 변수를 여러개 연결하면 사용이 힘들어짐 -->
+<!--      thymeleaf에서 || 를 사용하면 + 연산자 없이 문자열과 변수를 쉽게 사용할 수 있음 -->
+<!--      문자열과 변수가 사용되야 하는 부분에 | | 로 감싸서 사용하면 + 연산자 없이 문자열과 변수를 동시에 출력할 수 있음 -->
+      <p th:text="${str1} + ' 문자열, ' + ${str2} + ' 문자열'">기본 문자열</p>
+      <p th:text="|${str1} 문자열, ${str2} 문자열|">기본 문자열</p>
+    </div>
+    <br>
+    <div>
+      <h4>숫자 출력하기</h4>
+<!--      일반적인 숫자를 그대로 사용함, 123, 1, 10.5 -->
+      <p th:text="1000">기본 문자열</p>
+      <p th:text="10.5">기본 문자열</p>
+      <p th:text="10 + 10.5">기본 문자열</p>
+    </div>
+    <br>
+    <div>
+      <h4>boolean 타입 사용하기</h4>
+<!--      boolean 타입의 데이터인 true, false도 그대로 사용 -->
+      <p th:text="true">기본 문자열</p>
+      <p th:text="false">기본 문자열</p>
+    </div>
+  </div>
+  <br>
+  <div>
+    <h3>연산자 사용하기</h3>
+    <div>
+      <h4>+, -, *, /, % 사용하기</h4>
+<!--      +, -, *, /, % 로 간단한 연산이 가능함 -->
+      <p th:text="|${num1} + ${num2} = ${num1 + num2}|">+ 연산자 사용하기</p>
+      <p th:text="|${num1} - ${num2} = ${num1 - num2}|">- 연산자 사용하기</p>
+      <p th:text="|${num1} * ${num2} = ${num1 * num2}|">* 연산자 사용하기</p>
+      <p th:text="|${num1} / ${num2} = ${num1 / num2}|">/ 연산자 사용하기</p>
+      <p th:text="|${num1} % ${num2} = ${num1 % num2}|">% 연산자 사용하기</p>
+    </div>
+    <br>
+    <div>
+      <h4><, >, <=, >=, ==, !=, ! 사용하기</h4>
+<!--      비교 연산자를 사용하여 비교 연산이 가능함 -->
+<!--      lt, le, gt, ge, eq, ne, not 연산자를 대신 사용 가능함 -->
+      <p>1 < 100 = <span th:text="1 < 100"></span></p>
+      <p>1 > 100 = <span th:text="1 > 100"></span></p>
+      <p>1 <= 100 = <span th:text="1 <= 100"></span></p>
+      <p>1 >= 100 = <span th:text="1 >= 100"></span></p>
+      <p>1 == 100 = <span th:text="1 == 100"></span></p>
+      <p>1 != 100 = <span th:text="1 != 100"></span></p>
+      <p>!true = <span th:text="!true"></span></p>
+      <p>1 lt 100 = <span th:text="1 lt 100"></span></p>
+      <p>1 gt 100 = <span th:text="1 gt 100"></span></p>
+      <p>1 le 100 = <span th:text="1 le 100"></span></p>
+      <p>1 ge 100 = <span th:text="1 ge 100"></span></p>
+      <p>1 eq 100 = <span th:text="1 eq 100"></span></p>
+      <p>1 ne 100 = <span th:text="1 ne 100"></span></p>
+      <p>not true = <span th:text="not true"></span></p>
+    </div>
+  </div>
+  <br><hr><br>
+
+  <div>
+    <h3>조건문 사용하기</h3>
+
+    <div>
+      <h4>삼항 연산자 사용하기</h4>
+<!--      자바의 삼항연산자와 동일한 형태로 사용 -->
+<!--      '조건식 ? 참일 경우 실행 : 거짓이면 실행' 방식으로 사용함 -->
+<!--      참일 경우 혹은 거짓일 경우에만 화면에 출력하도록 하는 것이 가능함 -->
+<!--      변수에 저장된 데이터가 null 일 경우에만 출력하기도 가능함 -->
+<!--      참만 화면에 출력하고자 할 경우 : 생략이 가능함 -->
+<!--      거짓만 화면에 출력하고자 할 경우 ?: 형태로 사용 가능함 -->
+      <p>(10 % 2 == 0) ? '짝수' : '홀수' = <span th:text="(10 % 2 == 0) ? '짝수' : '홀수'"></span></p>
+      <p>num3 = <span th:text="${num3 % 2 == 0} ? '짝수' : '홀수'"></span></p>
+      <div>
+        <p th:utext="${str3} ? '<button>null이 아닌 출력</button>'"></p>
+      </div>
+      <div>
+        <p th:utext="${str3} ?: '<button>null이 출력</button>'"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
