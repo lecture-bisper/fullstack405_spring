@@ -31,5 +31,6 @@ bin/
 ### 추가 내용 ###
 .idea/
 **/src/main/resources/**/bootstrap*
+**/src/main/resources/**/jquery*
 study07/study07_완성.zip
 study13/study13.zip

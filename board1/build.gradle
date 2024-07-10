@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.1'
+    id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'bitc.fullstack405'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+// 현재 프로젝트에서 사용하는 라이브러리의 종속성을 추가하는 부분
+dependencies {
+//    스프링 프레임워크의 최신 템플릿 엔진인 thymeleaf 를 사용하기 위해서 추가
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//    스프링 프레임워크의 web mvc 패턴을 사용하기 위해서 추가
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+//    데이터베이스 ORM 중 하나인 mybatis를 사용하기 위해 추가
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+//    자바 프로그래밍 시 사용되는 추가 유틸 중 하나, 현재는 거의 필수, getter/setter 를 자동으로 생성함
+    compileOnly 'org.projectlombok:lombok'
+//    스프링 프레임워크에서 제공하는 개발 편의 유틸
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+//    mysql 접속 드라이버
+    runtimeOnly 'com.mysql:mysql-connector-j'
+//    스프링 프레임워크에서 제공하는 설정 관련 라이브러리, 자바 코드로 프로젝트의 설정을 제어할 수 있음
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+//    모듈 테스트 시 사용하는 라이브러리
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
