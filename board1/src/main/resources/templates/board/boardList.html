@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<!-- xmlns:th="http://www.thymeleaf.org" - 현재 html 문서에서 템플릿 엔진으로 thymeleaf 를 사용한다는 것을 의미 -->
+<!-- JSP 는 현재 스프링 프레임워크의 템플릿 엔진에서 제외됨 -->
+<!-- 현재는 thymeleaf 가 스프링 프레임워크의 기본 템플릿 엔진임 -->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spring MVC 게시판 목록 페이지</title>
+
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  <script src="/js/jquery-3.7.1.js"></script>
+  <scirpt src="/js/bootstrap.bundle.js"></scirpt>
+
+</head>
+<body>
+
+<header>
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a href="#" class="navbar-brand">Logo</a>
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a href="#" class="nav-link">메뉴 1</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">메뉴 2</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">메뉴 3</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main class="container mt-5">
+  <div style="margin-top: 75px;">
+    <div class="p-4 text-center border rounded-4 bg-secondary-subtle">
+      <h1 class="display-4">Spring MVC 게시판 목록 페이지</h1>
+      <h2 class="mt-3"><small>Spring WEB MVC로 만든 게시판</small></h2>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-sm">
+      <table class="table table-hover table-striped">
+        <colgroup>
+          <col style="width: 10%">
+          <col style="width: 45%">
+          <col style="width: 15%">
+          <col style="width: 20%">
+          <col style="width: 10%">
+        </colgroup>
+        <thead>
+        <tr>
+          <th>글번호</th>
+          <th>글제목</th>
+          <th>글쓴이</th>
+          <th>등록일</th>
+          <th>조회수</th>
+        </tr>
+        </thead>
+        <tbody>
+<!--        thymeleaf는 JSP의 EL 언어와 비슷한 언어 -->
+<!--        th:if - thymeleaf에서 제공하는 단순 if문 -->
+<!--        th:each - thymeleaf에서 제공하는 반복문, 자바의 향상된 for문과 같음 -->
+<!--        th:text - thymeleaf에서 제공하는 단순 문자열 출력, 시작태그와 끝 태그 사이의 text 를 추가함 -->
+<!--        #lists - thymeleaf에서 제공하는 내장 객체, 자바의 ArrayList를 의미 -->
+        <tr th:if="${#lists.size(boardList)} > 0" th:each="item : ${boardList}">
+          <td th:text="${item.boardIdx}"></td>
+          <td>
+            <a href="/board/boardDetail.do?boardIdx=" th:attrappend="href=${item.boardIdx}" th:text="${item.title}"></a>
+          </td>
+          <td th:text="${item.createUser}"></td>
+          <td th:text="${item.createDate}"></td>
+          <td th:text="${item.hitCnt}"></td>
+        </tr>
+
+<!--        th:unless - thymeleaf에서 제공하는 단순 if문 중 하나 -->
+<!--        th:if 는 결과값이 true일 때 내용을 출력, th:unless는 결과값이 false일 때 내용을 출력 -->
+<!--        th:if와 th:unless를 조합하여 if ~ else 문을 만들 수 있음 -->
+        <tr th:unless="${#lists.size(boardList)} > 0">
+          <td colspan="5">조회된 결과가 없습니다.</td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="mt-3 d-flex justify-content-end">
+        <a href="/board/boardWrite.do" class="btn btn-primary">글쓰기</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="border-top mt-5 p-sm-5">
+  <div class="text-center">
+    <p class="lead text-muted">made by fullstack405</p>
+  </div>
+</footer>
+
+</body>
+</html>
