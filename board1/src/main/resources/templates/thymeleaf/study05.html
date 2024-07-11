@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>thymeleaf 사용하기</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div class="container mt-5">
+  <h3>외부 파일 가져오기</h3>
+<!--  fragment : thymeleaf를 사용하여 미래 생성해 놓은 파일 혹은 파일의 일부분을 현재 파일로 포함시켜 사용하는 방법 -->
+<!--  th:fragment 를 사용하여 thymeleaf 에서 특정 파일 내부로 포함될 영역을 지정해 놓음 -->
+<!--  fragment는 하나의 layout 파일에서 여러개를 사용할 수 있음 -->
+<!--  fragment는 매개변수를 전달할 수 있음 -->
+<!--  매개변수 사용 시 fragment 이름 설정 시 '이름(변수명1, 변수명2, ...)' 형태로 사용-->
+
+<!--  th:insert - fragment로 지정된 파일 및 영역을 현재 파일의 지정한 영역의 자식 태그로 포함 -->
+<!--  th:replace - fragment로 지정된 파일 및 영역을 현재 파일의 지정한 영역으로 대체함 -->
+<!--  th:include - fragment로 지정된 파일 및 영역의 자식 태그를 현재 파일의 지정된 영역의 자식 태그로 포함 -->
+
+<!--  th:가져올방식="~{경로및파일명 :: fragment명}" 형태로 사용 -->
+
+  <br><hr><br>
+
+  <h4>하나의 파일에 header, main, footer 영역을 직접 작성한 형태</h4>
+  <div style="height: 500px;" class="p-4 border bg-primary bg-opacity-10">
+    <header class="container-fluid p-4">
+      <h1 class="text-center">Header 영역</h1>
+    </header>
+    <main class="container mt-4 border-top border-2">
+      <div class="py-4">
+        <h1 class="text-center">Main 영역</h1>
+      </div>
+    </main>
+    <footer class="mt-4 border-top border-2">
+      <div class="py-5">
+        <h1 class="text-center">Footer 영역</h1>
+      </div>
+    </footer>
+  </div>
+
+  <br><hr><br>
+
+  <h4>fragment 로 기존에 생성한 파일의 내용 가져오기</h4>
+  <div style="height: 500px;" class="p-4 border bg-info bg-opacity-10">
+    <header th:replace="~{/layout/header :: headerBasic}"></header>
+    <main class="container mt-4 border-top border-2">
+      <div class="py-4">
+        <h1 class="text-center">Main 영역</h1>
+      </div>
+    </main>
+    <footer th:replace="~{/layout/footer :: footer}"></footer>
+  </div>
+
+  <br><hr><br>
+
+  <h4>th:insert, th:replace, th:include 에 따른 가져오기 방식</h4>
+  <div style="height: 500px;" class="p-4 border bg-success bg-opacity-10 text-center">
+    <h5>th:insert</h5>
+    <div th:insert="~{/layout/header :: headerBasic}"></div>
+
+    <h5 class="mt-4">th:replace</h5>
+    <div th:replace="~{/layout/header :: headerBasic}"></div>
+
+    <h5 class="mt-4">th:include</h5>
+    <div th:include="~{/layout/header :: headerBasic}"></div>
+  </div>
+
+  <br><hr><br>
+
+  <h4>여러가지 영역을 필요에 따라 가져오기</h4>
+  <div style="height: 500px;" class="p-4 border bg-warning bg-opacity-10 text-center">
+    <div th:replace="~{/layout/header :: headerBasic}"></div>
+    <div th:replace="~{/layout/header :: headerNavbar}"></div>
+    <div th:replace="~{/layout/header :: headerParam('헤어 영역', '소제목 입력하는 부분')}"></div>
+  </div>
+</div>
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
