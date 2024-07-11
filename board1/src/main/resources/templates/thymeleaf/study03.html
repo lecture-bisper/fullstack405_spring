@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>thymeleaf 사용하기</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div class="container mt-5">
+  <div>
+    <h3>조건문 사용하기</h3>
+
+    <div>
+      <h4>if, unless 사용하기</h4>
+<!--      if : 자바 혹은 자바스크립트의 단순 if문과 동일한 형태로 사용 -->
+<!--      if문의 조건식 결과가 true일 경우 자식 태그의 내용을 출력하는 형태로 사용 -->
+
+<!--      unless : if문과 동일한 형태로 사용하는 명령어 -->
+<!--      unless의 조건식 결과가 false일 경우 자식 태그의 내용을 출력하는 형태로 사용 -->
+
+<!--      th:if 문과 th:unless 를 연속적으로 사용하여 자바 혹은 자바스크립트의 if ~ else 문을 구현할 수 있음 -->
+<!--      th:if문과 th:unless를 사용하여 if ~ else 문 형태를 구현했을 경우 if문과 unless문의 조건식은 동일해야 함 -->
+      <div th:if="${num3 > 5}">
+        <p>if 조건식의 결과가 true일 경우 출력</p>
+      </div>
+      <div th:unless="${num3 > 5}">
+        <p>unless 조건식의 결과가 false일 경우 출력</p>
+      </div>
+      <div th:if="${num3 < 5}">
+        <p>if 조건식의 결과가 false일 경우 미출력</p>
+      </div>
+      <div th:unless="${num3 < 5}">
+        <p>unless 조건식의 결과가 false 경우 출력</p>
+      </div>
+    </div>
+    <br><hr><br>
+    <div>
+      <h4>switch ~ case 문 사용하기</h4>
+<!--      자바 및 자바스크립트의 switch ~ case 문을 구현할 수 있음 -->
+<!--      부모 태그에 th:switch=${변수명} 을 사용하고, 자식 태그에 th:case="값" 을 설정하여 사용함 -->
+<!--      자식 태그 중 해당 값과 일치하는 태그의 내용을 출력 -->
+<!--      지정한 모든 case와 일치하지 않을 경우 사용하는 default 부분은 th:case="*" 로 설정하여 사용함 -->
+      <div th:switch="${grade}">
+        <p th:case="'A'">성적이 A 등급입니다</p>
+        <p th:case="'B'">성적이 B 등급입니다</p>
+        <p th:case="'C'">성적이 C 등급입니다</p>
+        <p th:case="'D'">성적이 D 등급입니다</p>
+        <p th:case="*">성적이 F 등급입니다</p>
+      </div>
+    </div>
+
+    <br><hr><br>
+
+    <h3>반복문 사용하기</h3>
+    <!--      th:each 를 사용하여 반복문을 구현함 -->
+    <!--      자바의 향상된 for문과 사용방법이 비슷함 -->
+    <!--      부모 태그에 th:each="변수명 : ${배열 및 리스트}" 형태로 설정 -->
+    <!--      자식 태그에서 ${변수명} 으로 사용함 -->
+
+    <!--      each 는 반복 상태 변수를 제공함 -->
+    <!--      1. '변수명Stat.상태변수' 형식으로 사용함 -->
+    <!--      2. 변수명 설정 시 상태 변수도 함께 설정하여 사용 -->
+    <!--      index : 현재 반복 중인 index 값 (0부터 시작) -->
+    <!--      count : 현재 반복 중인 반복 횟수 (1부터 시작) -->
+    <!--      size : 총 요소 수 -->
+    <!--      current : 현재 요소의 값 출력 -->
+    <!--      even : 현재 반복이 짝수인지 여부 확인, true/false -->
+    <!--      odd : 현재 반복이 홀수인지 여부 확인, true/false -->
+    <!--      first : 현재 반복이 첫번째인지 여부 확인, true/false -->
+    <!--      last : 현재 반복이 마지막인지 여부 확인, true/false -->
+    <br>
+    <div>
+      <h4>배열을 th:each로 출력하기 </h4>
+
+      <div th:each="item : ${itemArray}">
+        <p th:text="${item}">기본 문자열</p>
+      </div>
+      <br>
+
+      <h4>리스트를 th:each로 출력하기</h4>
+      <div th:each="item : ${itemList}">
+        <p th:text="${item}">기본 문자열</p>
+      </div>
+      <br>
+<!--      List의 요소가 객체일 경우 -->
+      <div th:each="member : ${memberList}">
+        <p th:text="${member.memberIdx}"></p>
+        <p th:text="${member.memberId}"></p>
+        <p th:text="${member.memberName}"></p>
+        <p th:text="${member.memberAge}"></p>
+        <p th:text="${member.memberEmail}"></p>
+      </div>
+<!--      *{} 선택 변수로 출력 시 th:object를 추가하여 사용할 수 있음  -->
+      <div th:each="member : ${memberList}" th:object="${member}">
+        <p th:text="*{memberIdx}"></p>
+        <p th:text="*{memberId}"></p>
+        <p th:text="*{memberName}"></p>
+        <p th:text="*{memberAge}"></p>
+        <p th:text="*{memberEmail}"></p>
+      </div>
+      <br>
+<!--      th:each 문은 주로 th:if 문을 사용하여 배열 및 리스트의 크기를 확인하고 사용함 -->
+<!--      #lists 는 thymeleaf에서 제공하는 리스트 내장 객체 -->
+      <div th:if="${#lists.size(itemList)} > 0" th:each="item : ${itemList}">
+        <p th:text="${item}"></p>
+      </div>
+<!--      #arrays 는 thymeleaf에서 제공하는 배열 내장 객체 -->
+      <div th:if="${#arrays.length(itemArray)} > 0" th:each="item : ${itemArray}">
+        <p th:text="${item}"></p>
+      </div>
+      <br>
+      <h4>상태 변수 사용(1번 방식)</h4>
+<!--      th:each 사용 시 지정한 변수명에 'Stat' 를 붙이면 상태변수로 사용할 수 있음 -->
+      <div th:each="mem : ${memberList}">
+        <p>index : <span th:text="${memStat.index}"></span>, value : <span th:text="${mem.memberName}"></span></p>
+      </div>
+      <br>
+      <h4>상태 변수 사용(2번 방식)</h4>
+<!--      th:each 사용 시 데이터를 저장할 변수명과 상태 변수를 먼저 선언하고 사용함 -->
+      <div th:each="mem, memStat : ${memberList}">
+        <p>index : <span th:text="${memStat.index}"></span>, value : <span th:text="${mem.memberName}"></span></p>
+      </div>
+      <br>
+      <h4>상태 변수 사용하기</h4>
+      <div th:each="mem : ${memberList}">
+        <p>index : <span th:text="${memStat.index}"></span></p>
+        <p>count : <span th:text="${memStat.count}"></span></p>
+        <p>current : <span th:text="${memStat.current}"></span></p>
+        <p>size : <span th:text="${memStat.size}"></span></p>
+        <p>even : <span th:text="${memStat.even}"></span></p>
+        <p>odd : <span th:text="${memStat.odd}"></span></p>
+        <p>first : <span th:text="${memStat.first}"></span></p>
+        <p>last : <span th:text="${memStat.last}"></span></p>
+        <br>
+      </div>
+      <br>
+      <h4>배열의 상태변수 사용하기</h4>
+      <div th:each="item, itemStat : ${itemArray}">
+        <p>index : <span th:text="${itemStat.index}"></span></p>
+        <p>count : <span th:text="${itemStat.count}"></span></p>
+        <p>current : <span th:text="${itemStat.current}"></span></p>
+        <p>size : <span th:text="${itemStat.size}"></span></p>
+        <p>even : <span th:text="${itemStat.even}"></span></p>
+        <p>odd : <span th:text="${itemStat.odd}"></span></p>
+        <p>first : <span th:text="${itemStat.first}"></span></p>
+        <p>last : <span th:text="${itemStat.last}"></span></p>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

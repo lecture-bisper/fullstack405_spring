@@ -18,3 +18,10 @@
    3. spring MVC 게시판 - 글 수정 및 글 삭제 구현
    4. thymeleaf 문법 - 변수 사용, 선택 변수 사용, 리소스 번들 사용, 링크 주소 사용, 문자열 출력, 숫자 출력, boolean 출력
    5. thymeleaf 문법 - 산술 연산자 사용, 비교 연산자 사용, 삼항 연산자 사용
+3. 3일차 수업 (board1)
+   1. thymeleaf 문법 - if, unless, switch ~ case, foreach 사용
+   2. thymeleaf 문법 - html 속성에 데이터 추가 수정
+   3. thymeleaf 문법 - fragment, insert, replace, include 사용하기
+   4. spring MVC 게시판 - view 페이지에서 첨부파일 기능 추가, 업로드된 파일 정보 확인
+   5. spring MVC 게시판 - BoardFileDTO 파일 추가, 파일 정보 분석 및 디스크에 저장하는 FileUtils 클래스 추가
+   6. spring MVC 게시판 - BoardMapper 수정, BoardController 수정, BoardService 수정, sql-board.xml 수정

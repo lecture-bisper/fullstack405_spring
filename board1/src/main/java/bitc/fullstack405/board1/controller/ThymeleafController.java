@@ -53,6 +53,13 @@ public class ThymeleafController {
 //    null 값을 추가
     mv.addObject("str3", null);
 
+    return mv;
+  }
+
+  @RequestMapping("/thymeleaf/study03")
+  public ModelAndView study03() {
+    ModelAndView mv = new ModelAndView("thymeleaf/study03");
+
 //    정수 데이터 추가
     mv.addObject("num1", 100);
     mv.addObject("num2", 200);
@@ -104,6 +111,24 @@ public class ThymeleafController {
     mv.addObject("memberList", memberList);
 
     return mv;
+  }
+
+  @RequestMapping("/thymeleaf/study04")
+  public ModelAndView study04() {
+    ModelAndView mv = new ModelAndView("thymeleaf/study04");
+
+    mv.addObject("checkedVal", true);
+    mv.addObject("multipleVal", true);
+    mv.addObject("selectedVal", true);
+    mv.addObject("disabledVal", false);
+    mv.addObject("readonlyVal", false);
+
+    return mv;
+  }
+
+  @RequestMapping("/thymeleaf/study05")
+  public String study05() {
+    return "thymeleaf/study05";
   }
 }
 
