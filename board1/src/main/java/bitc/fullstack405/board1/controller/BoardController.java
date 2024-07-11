@@ -5,6 +5,7 @@ import bitc.fullstack405.board1.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -62,11 +63,15 @@ public class BoardController {
 //  글쓰기 처리, 데이터베이스 등록을 위한 내부 처리
 //  매개변수로 BoardDTO 클래스 타입의 객체를 받음
 //  DTO 타입으로 클라이언트에서 데이터를 받아 올 경우 클라이언트의 input 태그 name 속성값이 DTO 클래스의 필드명과 동일해야 함
+  
+//  첨부파일을 정보를 입력받기 위해서 MultipartHttpServletRequest 클래스 타입의 객체를 매개변수로 받음
+//  MultipartHttpServletRequest : 클라이언트에서 전달한 파일 정보를 받아오는 클래스
   @RequestMapping("/board/insertBoard.do")
-  public String insertBoard(BoardDTO board) throws Exception {
+  public String insertBoard(BoardDTO board, MultipartHttpServletRequest multipart) throws Exception {
 //    서비스 객체에서 제공하는 insertBoard() 메소드를 호출
-    boardService.insertBoard(board);
-
+//    boardService.insertBoard(board);
+//    서비스 객체에서 제공하는 insertBoard() 메소드와 파일 정보를 함께 저장
+      boardService.insertBoard(board, multipart);
 //    JSP의 response.sendRedirect() 와 같은 역할
     return "redirect:/board/boardList.do";
   }

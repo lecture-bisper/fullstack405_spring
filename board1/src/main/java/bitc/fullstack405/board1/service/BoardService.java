@@ -1,6 +1,7 @@
 package bitc.fullstack405.board1.service;
 
 import bitc.fullstack405.board1.dto.BoardDTO;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -10,7 +11,10 @@ public interface BoardService {
 
   public List<BoardDTO> selectBoardList() throws Exception;
 
-  public void insertBoard(BoardDTO board) throws Exception;
+//  기존의 t_board 타입의 데이터만 매개변수로 받음
+//  public void insertBoard(BoardDTO board) throws Exception;
+//  기존 데이터와 첨부파일을 모두 사용
+  public void insertBoard(BoardDTO board, MultipartHttpServletRequest multipart) throws Exception;
 
   BoardDTO selectBoardDetail(int boardIdx) throws Exception;
 

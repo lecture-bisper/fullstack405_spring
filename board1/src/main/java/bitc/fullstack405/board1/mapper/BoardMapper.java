@@ -1,6 +1,7 @@
 package bitc.fullstack405.board1.mapper;
 
 import bitc.fullstack405.board1.dto.BoardDTO;
+import bitc.fullstack405.board1.dto.BoardFileDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -30,6 +31,9 @@ public interface BoardMapper {
   
 //  조회수 증가
   public void updateHitCount(int boardIdx) throws Exception;
+
+//  첨부파일 정보 DB에 추가
+  public void insertBoardFileList(List<BoardFileDTO> fileList) throws Exception;
 }
 
 
