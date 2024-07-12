@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+  <script>
+    $(document).ready(function () {
+        $("#sel1").on("change", function () {
+            const val1 = $("#sel1 option:selected").val();
+
+            // 시정보 전달 후 구 정보 받아오기
+            $.ajax({
+                url: "/ajax/quiz2addr1",
+                type: "post",
+                data: {areaName: val1},
+                success: function (data) {
+                    // 서버에서 전달받은 데이터가 있는지 확인
+                    if (data.length > 0) {
+                        // 이 부분을 하지 않으면 시 정보를 변경해서 구 정보가 변경되어도 동 정보가 계속 예전 것이 남아 있음
+                        // 동 정보를 가지고 있는 select box 선택 및 내용 삭제
+                        const selBox3 = $("#sel3");
+                        selBox3.empty();
+
+                        // 구 정보를 가지고 있는 select box 선택 및 내용 삭제
+                        const selBox2 = $("#sel2");
+                        selBox2.empty();
+
+                        // 기본 option 태그 내용 생성
+                        let opt = "<option value='' selected>선택하세요</option>";
+
+                        // 동 정보를 가지고 있는 select box 에 기본 option 태그 내용 추가
+                        selBox3.append(opt);
+
+                        // 반복문을 통해서 option 태그를 반복적으로 생성
+                        // 서버에서 가져온 새 구 정보 리스트를 생성된 option 태그에 추가
+                        for (let i = 0; i < data.length; i++) {
+                            opt += "<option value='" + data[i].areaName + "'>" + data[i].areaName + "</option>";
+                        }
+
+                        // 완성된 태그를 구 정보를 가지고 있는 select box 에 추가
+                        selBox2.append(opt);
+                    }
+                },
+                error: function () {
+                    alert("통신 중 오류가 발생했습니다.");
+                }
+            });
+        });
+
+        $("#sel2").on("change", function () {
+            const val2 = $("#sel2 option:selected").val();
+
+            // 구 정보 전달 후 동 정보 가져오기
+            $.ajax({
+                url: "/ajax/quiz2addr2",
+                type: "post",
+                data: {areaName: val2},
+                success: function (data) {
+                    // 서버에서 전달받은 데이터가 있는지 확인
+                    if (data.length > 0) {
+                        // 동 정보를 가지고 있는 select box 선택 및 내용 삭제
+                        const selBox3 = $("#sel3");
+                        selBox3.empty();
+
+                        // 기본 option 태그 내용 생성
+                        let opt = "<option value='' selected>선택하세요</option>";
+
+                        // 반복문을 통해서 option 태그를 반복적으로 생성
+                        // 서버에서 가져온 새 동 정보 리스트를 생성된 option 태그에 추가
+                        for (let i = 0; i < data.length; i++) {
+                            opt += "<option value='" + data[i].areaName + "'>" + data[i].areaName + "</option>";
+                        }
+
+                        // 완성된 태그를 동 정보를 가지고 있는 select box 에 추가
+                        selBox3.append(opt);
+                    }
+                },
+                error: function () {
+                    alert("통신 중 오류가 발생했습니다.");
+                }
+            });
+        });
+
+        $("#btn-addr").on("click", function () {
+            const addr1 = $("#sel1 option:selected").val();
+            const addr2 = $("#sel2 option:selected").val();
+            const addr3 = $("#sel3 option:selected").val();
+
+            const fullAddr = addr1 + "시 " + addr2 + " " + addr3;
+
+            const div = $("#div-result");
+            div.empty();
+
+            let html = "<hr class='mt-4'>";
+            html += "<label for='result' class='form-label'>주소 : </label>";
+            html += "<input type='text' class='form-control' id='result' name='result' readonly value='" + fullAddr + "'>"
+
+            div.append(html);
+        });
+    });
+  </script>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h3 class="text-center">문제 2</h3>
+
+  <div class="row">
+    <div class="col-sm">
+      <select class="form-control" name="sel1" id="sel1">
+        <option value="" selected>선택하세요</option>
+        <option value="서울">서울</option>
+        <option value="대전">대전</option>
+        <option value="대구">대구</option>
+        <option value="부산">부산</option>
+      </select>
+    </div>
+    <div class="col-sm">
+      <select class="form-control" name="sel2" id="sel2">
+        <option value="" selected>선택하세요</option>
+      </select>
+    </div>
+    <div class="col-sm">
+      <select class="form-control" name="sel3" id="sel3">
+        <option value="" selected>선택하세요</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+      <button type="button" class="btn btn-primary" id="btn-addr">주소 출력</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm" id="div-result">
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
