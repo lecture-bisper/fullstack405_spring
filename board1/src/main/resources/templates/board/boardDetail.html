@@ -119,6 +119,12 @@
         </div>
       </div>
       <div class="row mt-3">
+        <div class="col-sm border rounded-2 px-3 mx-3 py-2" th:if="${#lists.size(board.fileList)} > 0">
+          <label for="files" class="form-label">첨부 파일 : </label>
+          <a href="#" class="btn btn-link" id="files" th:each="list : ${board.fileList}" th:text="|${list.originalFileName} (${list.fileSize} kb)|" th:href="@{/board/dowonloadBoardFile.do(fileIdx=${list.fileIdx}, boardIdx=${list.boardIdx})}">첨부파일</a>
+        </div>
+      </div>
+      <div class="row mt-3">
         <div class="col-sm">
           <button type="button" class="btn btn-secondary" id="btn-list">목록</button>
         </div>
