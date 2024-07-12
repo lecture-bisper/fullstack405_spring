@@ -60,6 +60,14 @@ public class BoardServiceImpl implements BoardService {
       boardMapper.insertBoardFileList(fileList);
     }
 
+////    반복문으로 처리 시
+//    if (CollectionUtils.isEmpty(fileList) == false) {
+////      생성된 파일 정보 리스트를 DB에 추가
+//      for (BoardFileDTO fileDTO : fileList) {
+//        boardMapper.insertBoardFileList(fileDTO);
+//      }
+//    }
+
 
 ////    파일 정보가 서버로 업로드됐는지 확인
 ////    ObjectUtils.isEmpty() : 스프링 프레임워크에서 제공하는 클래스, 객체가 비었는지 아닌지 확인
@@ -90,7 +98,17 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   public BoardDTO selectBoardDetail(int boardIdx) throws Exception {
-    return boardMapper.selectBoardDetail(boardIdx);
+//    조회수 업데이트
+    boardMapper.updateHitCount(boardIdx);
+
+//    DB에서 게시물 상세 내용 가져오기
+    BoardDTO board = boardMapper.selectBoardDetail(boardIdx);
+//    DB에서 해당 게시물의 첨부파일 목록 가져오기
+    List<BoardFileDTO> boardFileList = boardMapper.selectBoardFileList(boardIdx);
+//    가져온 첨부파일 목록을 게시물 상세 내용에 추가하기
+    board.setFileList(boardFileList);
+    
+    return board;
   }
 
   @Override
@@ -101,6 +119,11 @@ public class BoardServiceImpl implements BoardService {
   @Override
   public void deleteBoard(int boardIdx) throws Exception {
     boardMapper.deleteBoard(boardIdx);
+  }
+
+  @Override
+  public BoardFileDTO selectBoardFileInfo(int fileIdx, int boardIdx) throws Exception {
+    return boardMapper.selectBoardFileInfo(fileIdx, boardIdx);
   }
 }
 
