@@ -105,6 +105,32 @@
             (#{item.boardIdx}, #{item.originalFileName}, #{item.storedFileName}, #{item.fileSize},  #{item.createUser}, now())
         </foreach>
     </insert>
+
+    <select id="selectBoardFileList" parameterType="int" resultType="bitc.fullstack405.board1.dto.BoardFileDTO">
+        SELECT
+            board_idx, file_idx, original_file_name, stored_file_name,
+            FORMAT(ROUND(file_size / 1024), 0) AS file_size
+        FROM
+            t_files
+        WHERE
+            board_idx = #{idx}
+        AND
+            deleted_yn = 'N'
+    </select>
+
+    <select id="selectBoardFileInfo" parameterType="map" resultType="bitc.fullstack405.board1.dto.BoardFileDTO">
+        SELECT
+            board_idx, file_idx, original_file_name, stored_file_name, file_size, create_user,
+            create_date, update_user, update_date
+        FROM
+            t_files
+        WHERE
+            file_idx = #{fileIdx}
+        AND
+            board_idx = #{boardIdx}
+        AND
+            deleted_yn = 'N'
+    </select>
 </mapper>
 
 
