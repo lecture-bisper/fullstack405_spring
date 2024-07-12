@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+  <script>
+    // html 에서 서버로 데이터를 전달하는 방법은 기존에는 form 태그를 통해서 전달하는 방법이 유일했음
+    // 전달한 데이터의 결과는 서버에서 응답객체를 통해서 전달하는 html 템플릿을 통해서 확인할 수 있었음
+    // 무조건 페이지의 전환이 발생, 서버에서 응답을 통해 전달된 데이터로 클라이언트에서 새로 화면을 구성
+    // 같은 페이지에서 데이터 응답을 받더라도 반드시 화면을 새로 구성하여 출력해야 함
+
+    // ajax : Asynchronous javascript and xml 의 줄임말로 자바스크립트를 통해서 서버와 비동기 통신을 하는 기술
+    // 자바스크립트를 통해서 서버와 직접 통신을 진행하고 응답받은 결과를 자바스크립트를 통해서 화면에 출력
+    // 자바스크립트를 통해서 결과를 화면에 구성하기 때문에 현재 페이지에서 다른 페이지로 전환이 없음
+    // 자바스크립트를 통해서 현재 페이지의 일부분을 수정하기 때문에 전체 화면을 새로 구성하는 것보다 적은 리소스를 사용함
+    $(document).ready(function () {
+        $("#btn-cal").on("click", function () {
+            // html 태그 중 id값이 num1, num2인 태그의 value 값을 가져옴
+            const val1 = $("#num1").val();
+            const val2 = $("#num2").val();
+
+            //  jquery의 ajax 를 사용하여 서버와 데이터 통신
+            $.ajax({
+                // url - ajax로 통신을 진행할 서버 url 입력
+                url: "/ajax/ajaxCalResult",
+                // type - ajax로 서버와 통신 시 데이터 전달 방식 (get, post)
+                type: "POST",
+                // data - ajax로 서버와 통신 시 서버로 전달할 데이터, object 타입으로 데이터 전달
+                data: {num1: val1, num2: val2},
+                // dataType - ajax로 서버와 통신 시 서버에서 전달하는 응답 데이터 방식 설정(text, html, json), 생략 시 자동으로 인식, 주로 json 방식을 사용함
+                // json : javascript object notation 의 줄임말, 자바스크립트 객체 문법으로 데이터를 표현하는 문자 기반의 규격, 프로그래밍에 편한 방식
+                // xml : extensible markup language 의 줄임말, 특수한 목적을 갖는 마크업 언어를 만드는데 사용하기 위해서 만들어진 데이터 전송 규격, 태그를 사용자가 직접 지정할 수 있음, 사람이 알아보기 편한 방식
+                dataType: "json",
+                // success - ajax로 서버와 통신 시 정상적으로 통신이 완료되었을 경우 자동 실행, 매개변수로 서버에서 전달한 데이터를 받아옴
+                success: function (data) {
+                    if (data.result == "success") {
+                        // html 태그의 id 값이 div-result인 태그를 가져옴
+                        const tag = $("#div-result");
+                        // jquery의 empty() 함수를 사용하여 지정한 태그의 자식 태그를 모두 삭제
+                        tag.empty();
+
+                        // 자바스크립트로 html 태그 생성
+                        let html = "<label for='result' class='form-label'>계산 결과 : </label>";
+                        html += "<input type='text' class='form-control' id='result' name='result' value='" + data.value + "' readonly>";
+
+                        // jquery의 append() 함수를 사용하여 생성된 html 태그를 지정한 html 태그에 추가
+                        tag.append(html);
+                    }
+                    else {
+                        alert("계산 중 오류가 발생했습니다.");
+                    }
+                },
+                // error - ajax로 서버와 통신 시 오류가 발생 시 자동 실행
+                error: function () {
+                    alert("통신 중 오류가 발생했습니다.");
+                }
+            });
+        });
+    });
+  </script>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="text-center">Ajax를 사용하는 계산기</h1>
+  <div class="row">
+    <div class="col-sm-4 mx-auto">
+      <div class="mt-3">
+        <label for="num1" class="form-label">첫번째 숫자 : </label>
+        <input type="text" class="form-control" id="num1" name="num1" placeholder="첫번째 숫자를 입력하세요">
+      </div>
+      <div class="mt-3">
+        <label for="num2" class="form-label">두번째 숫자 : </label>
+        <input type="text" class="form-control" id="num2" name="num2" placeholder="두번째 숫자를 입력하세요">
+      </div>
+      <div class="mt-3 d-grid gap-2">
+        <button type="button" class="btn btn-primary" id="btn-cal">계산</button>
+      </div>
+      <hr>
+      <div class="mt-3" id="div-result">
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
