@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 // @Data : Lombok 라이브러리에서 제공하는 어노테이션
 // 자동으로 getter/setter 메소드를 생성
 // 자동으로 toString() 메소드를 생성
@@ -26,6 +28,8 @@ public class BoardDTO {
   private String updateUser;
   private String updateDate;
   private int hitCnt;
+//  업로드된 파일 목록
+  private List<BoardFileDTO> fileList;
 }
 
 
