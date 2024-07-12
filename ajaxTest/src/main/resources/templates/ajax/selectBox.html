@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ajax 사용하기</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+  <script>
+    $(document).ready(function () {
+        $("#sel1").on("change", function () {
+            const selectValue = $("#sel1 option:selected").val();
+            const sendDatas = {areaName: selectValue};
+
+            $.ajax({
+                url: "/ajax/selectBox",
+                type: "post",
+                data: sendDatas,
+                success: function(data) {
+                    if (data.length > 0) {
+                        // 두번째 select 태그를 가져옴
+                        const sel2 = $("#sel2");
+                        // 기존에 가지고 있는 자식 태그를 모두 삭제
+                        sel2.empty();
+
+                        // 자식 태그로 추가될 기본 html 태그를 생성함
+                        let html = "<option value='' selected>선택하세요</option>";
+
+                        // 자식 태그로 추가될 데이터가 포함된 html 태그를 for문으로 반복 생성
+                        for (let i = 0; i < data.length; i++) {
+                            html += "<option value='" + data[i].areaName + "'>" + data[i].areaName + "</option>";
+                        }
+
+                        // 부모 태그인 sel2 에 생성된 자식 태그를 추가함
+                        sel2.append(html);
+                    }
+                },
+                error: function () {
+                    alert("통신 실패");
+                }
+            });
+        });
+    });
+  </script>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1>ajax로 실시간 데이터 가져오기</h1>
+
+  <div class="row">
+    <div class="col-sm">
+      <select class="form-control" id="sel1">
+        <option value="" selected>선택하세요</option>
+        <option value="서울">서울</option>
+        <option value="대전">대전</option>
+        <option value="대구">대구</option>
+        <option value="부산">부산</option>
+      </select>
+    </div>
+    <div class="col-sm">
+      <select class="form-control" id="sel2">
+        <option value="" selected>선택하세요</option>
+      </select>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
