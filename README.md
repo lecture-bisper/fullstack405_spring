@@ -32,4 +32,9 @@
    4. spring MVC 게시판 - mapper에 첨부파일 목록을 위한 selectBoardFileList() 메소드 추가, 다운로드를 위한 selectBoardFileInfo() 메소드 추가, xml에 selectBoardFileList 와 selectBoardFileInfo 를 위한 SQL쿼리문 추가
    5. Ajax 사용 - ajax를 사용한 것과 사용하지 않은 비교
    6. Ajax 사용 - ajax를 사용하여 select box 정보 변경하기
-   7. Ajax 사용 - ajax를 사용한 문제 2개 
+   7. Ajax 사용 - ajax를 사용한 문제 2개
+5. 5일차 수업 (board2)
+   1. Login 처리 : Spring MVC 게시판 프로젝트 생성, DB설정
+   2. Login 처리 : BoardController, BoardDTO, BoardService, BoardMapper, View 생성
+   3. Login 처리 : LoginController, UserService, UserMapper, Login View 생성
+   4. Login 처리 : Interceptor 사용, LoginCheck 추가, WebMVCConfiguration 추가
