@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="bitc.fullstack405.board2.mapper.UserMapper">
+
+  <select id="isUserInfo" parameterType="map" resultType="int">
+    SELECT
+      count(*) AS cnt FROM t_user
+    WHERE
+      user_id = #{userId}
+    AND
+      user_pw = #{userPw}
+    AND
+      user_block_yn = 'N'
+  </select>
+
+  <select id="getUserInfo" parameterType="String" resultType="bitc.fullstack405.board2.dto.UserDTO">
+    SELECT
+      user_id, user_name, user_email, create_date, update_date
+    FROM
+      t_user
+    WHERE
+      user_id = #{userId}
+    AND
+      user_block_yn = 'N'
+  </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
