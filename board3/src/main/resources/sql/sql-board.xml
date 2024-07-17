@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="bitc.fullstack405.board3.mapper.BoardMapper">
+
+  <select id="selectBoardList" resultType="bitc.fullstack405.board3.dto.BoardDTO">
+    SELECT
+      board_idx, title, create_user, create_date, hit_cnt
+    FROM
+      t_board
+    WHERE
+      deleted_yn = 'N'
+    ORDER BY
+      board_idx DESC
+  </select>
+
+  <select id="selectBoardDetail" parameterType="int" resultType="bitc.fullstack405.board3.dto.BoardDTO">
+    SELECT
+      board_idx, title, contents, create_user, create_date, update_user, update_date, hit_cnt
+    FROM
+      t_board
+    WHERE
+      board_idx = #{boardIdx}
+    AND
+      deleted_yn = 'N'
+  </select>
+
+  <insert id="insertBoard" parameterType="bitc.fullstack405.board3.dto.BoardDTO">
+    INSERT INTO t_board
+      (title, contents, create_user, create_date)
+    VALUES
+      (#{title}, #{contents}, #{createUser}, now())
+  </insert>
+
+  <update id="updateBoard" parameterType="bitc.fullstack405.board3.dto.BoardDTO">
+    UPDATE
+      t_board
+    SET
+      title = #{title}, contents = #{contents}, update_user = #{updateUser}, update_date = now()
+    WHERE
+      board_idx = #{boardIdx}
+  </update>
+
+  <delete id="deleteBoard" parameterType="int">
+    UPDATE
+      t_board
+    SET
+      deleted_yn = 'Y'
+    WHERE
+      board_idx = ${boardIdx}
+  </delete>
+
+  <update id="updateHitCount" parameterType="int">
+    UPDATE
+      t_board
+    SET
+      hit_cnt = hit_cnt + 1
+    WHERE
+      board_idx = #{boardIdx}
+  </update>
+</mapper>
+
+
+
+
+
+
+
+
+
+

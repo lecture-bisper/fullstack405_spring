@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REST 방식 게시판</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+  <script>
+    $(document).ready(function () {
+        $("#btn-list").on("click", function () {
+            history.back();
+        });
+
+        $("#btn-delete").on("click", function () {
+            $("#method").val("DELETE");
+
+            const frm = $("#frm")[0];
+            frm.action = "/board3/" + $("#board-idx").val();
+            frm.submit();
+        });
+
+        $("#btn-update").on("click", function () {
+            $("#method").val("PUT");
+
+            const frm = $("#frm")[0];
+            frm.action = "/board3/" + $("#board-idx").val();
+            frm.submit();
+        });
+    });
+  </script>
+</head>
+<body>
+
+<header th:replace="~{/layout/header :: header-basic}"></header>
+
+<main class="mt-5 border-top">
+  <section class="container">
+    <form id="frm" action="#" method="POST">
+      <input type="hidden" id="method" name="_method">
+      <div class="row mt-3">
+        <div class="col-sm">
+          <div class="form-floating">
+            <input type="type" class="form-control" id="board-idx" name="boardIdx" readonly placeholder="글번호" th:value="${board.boardIdx}">
+            <label for="board-idx">글번호</label>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="title" name="title" placeholder="글제목" th:value="${board.title}">
+            <label for="title">글제목</label>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="hit-cnt" name="hitCnt" placeholder="조회수" th:value="${board.hitCnt}">
+            <label for="hit-cnt">조회수</label>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-sm-2">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="create-user" name="createUser" readonly placeholder="등록ID" th:value="${board.createUser}">
+            <label for="create-user">등록ID</label>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-floating">
+            <input type="datetime-local" class="form-control" id="create-date" name="createDate" readonly placeholder="등록일" th:value="${board.createDate}">
+            <label for="create-date">등록일</label>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="update-user" name="updateUser" placeholder="수정ID" th:value="${board.updateUser}">
+            <label for="update-user">수정ID</label>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-floating">
+            <input type="datetime-local" class="form-control" id="update-date" name="updateDate" readonly placeholder="수정일" th:value="${board.updateDate}">
+            <label for="update-date">수정일</label>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-sm">
+          <div class="form-floating">
+            <textarea class="form-control" name="contents" id="contents" placeholder="내용" style="height: 150px" th:text="${board.contents}"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-sm">
+          <button type="button" class="btn btn-secondary" id="btn-list">목록</button>
+        </div>
+        <div class="col-sm d-flex justify-content-end">
+          <button type="button" class="btn btn-danger me-2" id="btn-delete">삭제</button>
+          <button type="button" class="btn btn-warning" id="btn-update">수정</button>
+        </div>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer th:replace="~{/layout/footer :: footer}"></footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
