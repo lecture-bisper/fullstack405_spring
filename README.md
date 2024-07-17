@@ -43,3 +43,11 @@
    2. REST 방식 사용하기 : REST 방식을 사용하기 위한 프로그램 설정 추가, REST 방식을 사용하는 방식으로 Controller 작성
    3. REST API 방식 사용하기 : REST API를 위한 Controller 추가
    4. 페이징 : PageHelper 라이브러리 종속성 추가, 페이징을 위한 Controller, Service, Mapper, View 추가
+7. 7일차 수업 (board3, xml_json_parser)
+   1. 페이징 : 페이지 이동 버튼 생성
+   2. xml 파싱 : 공공데이터 포털의 전국 약국 정보 서비스 데이터 파싱, DTO 클래스 생성
+   3. xml 파싱 : JAXB 라이브러리 종속성 추가, controller, service 파일 생성
+   4. xml 파싱 : js를 통한 ajax 통신 및 화면 그리기
+   5. json 파싱 : 영화진흥원의 일일박스오피스 데이터 파싱, DTO 클래스 생성
+   6. json 파싱 : Gson 라이브러리 종속성 추가, controller, service 파일 생성
+   7. json 파싱 : js를 통한 ajax 통신 및 화면 그리기
