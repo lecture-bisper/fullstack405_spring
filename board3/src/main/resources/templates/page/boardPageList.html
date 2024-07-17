@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>paging 을 사용한 목록 페이지</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<header th:replace="~{/layout/header :: header-basic}"></header>
+
+<main class="border-top mt-5">
+  <section class="container">
+    <div class="row mt-3">
+      <div class="col-sm">
+        <table class="table table-hover table-striped text-center">
+          <colgroup>
+            <col style="width: 5%">
+            <col style="width: 55%">
+            <col style="width: 15%">
+            <col style="width: 20%">
+            <col style="width: 5%">
+          </colgroup>
+          <thead>
+          <tr>
+            <th>글번호</th>
+            <th>글제목</th>
+            <th>작성자</th>
+            <th>등록일</th>
+            <th>조회수</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:if="${#lists.size(boardPageList.getList())} > 0" th:each="item : ${boardPageList.getList()}">
+            <td th:text="${item.boardIdx}">1</td>
+            <td class="text-start">
+              <a href="#" class="text-decoration-none" th:href="@{|/board3/${item.boardIdx}|}" th:text="${item.title}">제목</a>
+            </td>
+            <td th:text="${item.createUser}">작성자ID</td>
+            <td th:text="${item.createDate}">등록일</td>
+            <td th:text="${item.hitCnt}">조회수</td>
+          </tr>
+          <tr th:unless="${#lists.size(boardPageList.getList())} > 0">
+            <td colspan="5">조회된 정보가 없습니다.</td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="mt-3">
+          <ul class="pagination justify-content-center">
+
+<!--            이전 페이지 버튼 -->
+<!--            th:classappend : thymeleaf를 통해서 기존 class 속성에 내용 추가 -->
+<!--            getPrePage() : PageHelper 에서 제공하는 객체가 가지고 있는 prePage값 가져오기 -->
+            <li class="page-item" th:classappend="${boardPageList.getPrePage() == 0} ? 'disabled'">
+              <a href="#" class="page-link" th:href="@{/board3/page/board(pageNum=${boardPageList.getPrePage()})}">&laquo;</a>
+            </li>
+
+<!--            네비게이션 버튼 -->
+<!--            th:each를 사용하여 페이지네이션 버튼을 반복적으로 생성함 -->
+<!--            #numbers : thymeleaf에서 제공하는 숫자 유틸리티 객체 -->
+<!--            #numbers.sequence(시작번호, 끝번호) : 시작번호부터 끝번호까지의 숫자 배열을 생성 -->
+            <li class="page-item" th:each="page : ${#numbers.sequence(boardPageList.getNavigateFirstPage(), boardPageList.getNavigateLastPage())}" th:classappend="${page == boardPageList.getPageNum()} ? 'active'">
+              <a href="#" class="page-link" th:href="@{/board3/page/board(pageNum=${page})}" th:text="${page}">1</a>
+            </li>
+
+<!--            다음 페이지 버튼 -->
+<!--            getNextPage() : PageHelper 에서 제공하는 객체가 가지고 있는 nextPage값 가져오기 -->
+            <li class="page-item" th:classappend="${boardPageList.getNextPage() == 0} ? 'disabled'">
+              <a href="#" class="page-link" th:href="@{/board3/page/board(pageNum=${boardPageList.getNextPage()})}">&raquo;</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer th:replace="~{/layout/footer :: footer}"></footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
