@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>전국 약국 정보 파싱하기</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+  <script>
+    $(document).ready(function () {
+        $("#btn-list-load").on("click", function () {
+            const pageNo = $("#page-no").val();
+            const numOfRows = $("#num-of-rows").val();
+            const datas = {pageNo: pageNo, numOfRows: numOfRows};
+
+            $.ajax({
+                url: "/parser/pharmacy/fullDataUrl",
+                type: "post",
+                data: datas,
+                success: function (respData) {
+                    const tbody = $("#pharmacyListUrl > tbody");
+                    tbody.empty();
+
+                    let tag = "";
+
+                    if (respData.length > 0) {
+                        for (let i = 0; i < respData.length; i++) {
+                            tag += "<tr>";
+                            tag += "<td>" + respData[i].rnum + "</td>";
+                            tag += "<td>" + respData[i].hpid + "</td>";
+                            tag += "<td>" + respData[i].dutyName + "</td>";
+                            tag += "<td>" + respData[i].dutyTel1 + "</td>";
+                            tag += "<td>" + respData[i].dutyAddr + "</td>";
+                            tag += "<td>" + respData[i].dutyTime1s + "</td>";
+                            tag += "<td>" + respData[i].dutyTime1c + "</td>";
+                            tag += "</tr>";
+                        }
+                    }
+                    else {
+                        tag += "<tr>";
+                        tag += "<td colspan='7'>조회된 데이터가 없습니다.</td>";
+                        tag += "</td>";
+                    }
+
+                    tbody.append(tag);
+                },
+                error: function () {
+                    alert("통신 중 오류가 발생했습니다.");
+                }
+            });
+        });
+    });
+  </script>
+</head>
+<body>
+<main class="container mt-5">
+  <section>
+    <article>
+      <h3>XML 파일 파싱하기</h3>
+
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+          <th>번호</th>
+          <th>약국ID</th>
+          <th>약국명</th>
+          <th>전화번호</th>
+          <th>주소</th>
+          <th>시작시간</th>
+          <th>종료시간</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.size(dataList)} > 0" th:each="pharmacy : ${dataList}">
+          <td th:text="${pharmacy.rnum}">번호</td>
+          <td th:text="${pharmacy.hpid}">약국ID</td>
+          <td th:text="${pharmacy.dutyName}">약국명</td>
+          <td th:text="${pharmacy.dutyTel1}">전화번호</td>
+          <td th:text="${pharmacy.dutyAddr}">주소</td>
+          <td th:text="${pharmacy.dutyTime1s}">시작시간</td>
+          <td th:text="${pharmacy.dutyTime1c}">종료시간</td>
+        </tr>
+        <tr th:unless="${#lists.size(dataList)} > 0">
+          <td colspan="7">조회된 데이터가 없습니다.</td>
+        </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <br><hr><br>
+
+    <article>
+      <h3>XML 데이터를 URL로 가져오기</h3>
+
+      <table class="table table-hover table-striped" id="pharmacyListUrl">
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>약국ID</th>
+            <th>약국명</th>
+            <th>전화번호</th>
+            <th>주소</th>
+            <th>시작시간</th>
+            <th>종료시간</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="7">조회된 데이터가 없습니다.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="mt-3">
+        <div class="d-flex justify-content-center">
+          <div class="row">
+            <div class="col-sm">
+              <div class="input-group">
+                <span class="input-group-text">페이지 번호</span>
+                <input type="number" class="form-control" id="page-no" value="1" min="1">
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="input-group">
+                <span class="input-group-text">출력 수</span>
+                <input type="number" class="form-control" id="num-of-rows" value="10" min="10" step="10">
+              </div>
+            </div>
+            <div class="col-sm">
+              <button type="button" class="btn btn-primary" id="btn-list-load">데이터 가져오기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+</main>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
