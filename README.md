@@ -51,3 +51,12 @@
    5. json 파싱 : 영화진흥원의 일일박스오피스 데이터 파싱, DTO 클래스 생성
    6. json 파싱 : Gson 라이브러리 종속성 추가, controller, service 파일 생성
    7. json 파싱 : js를 통한 ajax 통신 및 화면 그리기
+8. 8일차 수업 (GsonTest, outsideDir, board4)
+   1. Gson 사용법
+   2. 외부 폴더를 스프링 프레임워크의 내부 폴더로 등록하기
+   3. JPA를 사용한 게시판
+9. 9일차 수업 (JPATest)
+   1. JPA를 사용한 테이블 생성
+   2. JPA를 사용한 테이블 관계 설정
+   3. JPA를 사용한 쿼리 메소드 만들기
+   4. JPA의 @Query를 사용하여 쿼리 만들기
